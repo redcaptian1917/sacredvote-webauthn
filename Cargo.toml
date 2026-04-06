@@ -1,0 +1,45 @@
+[package]
+name = "sacredvote-webauthn"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+repository = "https://github.com/PlausiDen/sacredvote-webauthn"
+description = "WebAuthn/FIDO2 authentication service for Sacred.Vote admin access. Phishing-resistant hardware key authentication defeats MFA relay attacks. Runs as an Axum HTTP sidecar."
+authors = ["PlausiDen Technologies LLC"]
+
+[dependencies]
+# WebAuthn protocol implementation
+webauthn-rs = { version = "0.5", features = ["danger-allow-state-serialisation"] }
+webauthn-rs-proto = "0.5"
+
+# Web framework (behind server feature)
+axum = { version = "0.8", optional = true }
+tokio = { version = "1", features = ["full"], optional = true }
+tower-http = { version = "0.6", features = ["cors", "trace"], optional = true }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Observability
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"], optional = true }
+
+# Error handling
+thiserror = "2"
+
+# Timestamps and IDs
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "v5", "serde"] }
+
+# URL handling (required by webauthn-rs)
+url = "2"
+
+[features]
+default = []
+server = ["dep:axum", "dep:tokio", "dep:tower-http", "dep:tracing-subscriber"]
+
+[[bin]]
+name = "sacredvote-webauthn"
+path = "src/main.rs"
+required-features = ["server"]
