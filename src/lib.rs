@@ -32,6 +32,8 @@
 //! - **User verification**: Configurable — can require PIN/biometric on
 //!   the authenticator itself.
 
+#![forbid(unsafe_code)]
+
 pub mod credential;
 
 #[cfg(feature = "server")]

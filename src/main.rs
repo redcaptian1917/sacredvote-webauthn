@@ -3,6 +3,8 @@
 //! Reads configuration from environment variables and starts the Axum server.
 //! See `WebauthnConfig::from_env()` for available variables.
 
+#![forbid(unsafe_code)]
+
 use sacredvote_webauthn::WebauthnConfig;
 
 #[tokio::main]
